@@ -1,16 +1,12 @@
 /////FCFS Scheduling Algorithm ...............
    ///By , Subrata Mandal
-/*The full form of FCFS Scheduling is First Come First Serve Scheduling. 
-   FCFS Scheduling algorithm automatically executes the queued processes and requests in
-   the order of their arrival. It allocates the job that first arrived in the queue to the CPU,
-   then allocates the second one, and so on.*/
 
 #include<stdio.h>
 #include<conio.h>
 #include<stdlib.h>
-void input(int[],int[],int);                                    //TAKE INPUT FROM USER
-void sort(int[],int[],int[],int);                               //FOR SORTING , ARRIVE TIME WISH
-void calculation(int[],int[],int[],int[],int[],int[],int);      //CALCULATE RESULT
+void input(int[],int[],int);
+void sort(int[],int[],int[],int);
+void calculation(int[],int[],int[],int[],int[],int[],int);
 void fcfs();
 int i,j;
 
@@ -76,27 +72,36 @@ void sort(int arrat[],int arrbt[],int arrp[],int size)
 ///fcfs calculation
 void calculation(int at[],int bt[],int ct[],int tat[],int wt[],int rt[],int size)
   {
-  int temp=0;
-    for(i=0;i<size;i++)
+    ct[0]=at[0]+bt[0];
+
+    for(i=1;i<size;i++)
       {
-	 temp+=bt[i];
-	 ct[i]=temp;
-	 tat[i]=ct[i]-at[i];
-	 wt[i]=tat[i]-bt[i];
-	 rt[i]=wt[i];
-       if(tat[i]<0)
-	 {
-	  tat[i]=0;
-	 }
-       if(wt[i]<0)
-	 {
-	  wt[i]=0;
-	 }
-       if(rt[i]<0)
-	 {
-	  rt[i]=0;
-	 }
+        int temp=0;
+	      if(ct[i-1]<at[i])
+          {
+            temp=at[i]-ct[i-1];
+          }
+	      ct[i]=ct[i-1]+bt[i]+temp;
       }
+    for(i=0;i<size;i++)
+    {
+      tat[i]=ct[i]-at[i];
+	      wt[i]=tat[i]-bt[i];
+	      rt[i]=wt[i];
+
+       if(tat[i]<0)
+	      {
+	        tat[i]=0;
+	      }
+       if(wt[i]<0)
+	      {
+	        wt[i]=0;
+	      }
+       if(rt[i]<0)
+	      {
+	        rt[i]=0;
+	      }
+    }    
   }
 
 void fcfs()
